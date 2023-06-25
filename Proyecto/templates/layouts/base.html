@@ -29,22 +29,23 @@
                     </a>
                 </div>
                 <div class="col-md-10 text-md-right" styled>
-                    <a href="{% url 'index' %}" class="btn btn-light mr-2">Iniciar sesión</a>
-                    <a href="{% url 'registro' %}" class="btn btn-primary">Registrate</a>
+                    <a href="{% url 'index' %}" class="btn btn-light mr-2 boton_log">Iniciar sesión</a>
+                    <a href="{% url 'registro' %}" class="btn btn-primary boton_log">Registrate</a>
                 </div>
                 {% if user.is_authenticated %}
+                <style> .boton_log{display: none;} </style>
                 <div class="dropdown col-md-1">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Usuario
+                        {{user.username}}
                     </button>
                     
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Perfil</a></li>
-                        <li><a class="dropdown-item" href="#">Cerrar sesión</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                     </ul>
                     {% else %}
-                    <h4> ConectaLocal </h4>
+                    
                     {% endif %}
                 </div>
             </div>

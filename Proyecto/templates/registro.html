@@ -21,30 +21,32 @@
                   <h4 class="mt-1 mb-5 pb-1">ConectaLocal</h4>
                 </div>
 
-                <form action="{% url 'registro' %}" method="post">
+                <form method="POST" action="{% url 'registro' %}">
                   {% csrf_token %}
+                  {% if error_message %}
+                  <p class="text-center"><b>{{ error_message }}</b></p>
+                  {% else %}
                   <p class="text-center"> <b>Registrate</b> </p>
-
+                  {% endif %}
                   <div class="form-outline mb-4">
-                    <input type="text" id="form2Example11" class="form-control" />
-                    <label class="form-label" for="form2Example11" name="fullName">Nombre Completo</label>
+                    <input type="text" id="form2Example11" class="form-control" name="username"/>
+                    <label class="form-label" for="form2Example11" name="username">Nombre de Usuario</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example12" class="form-control" />
-                    <label class="form-label" for="form2Example12" name="email">Email</label>
+                    <input type="email" id="form2Example12" class="form-control" name="email" />
+                    <label class="form-label" for="form2Example12" >Email</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="form2Example13" class="form-control" />
-                    <label class="form-label" for="form2Example13" name="password1">Contraseña</label>
+                    <input type="password" id="form2Example13" class="form-control" name="password" />
+                    <label class="form-label" for="form2Example13" >Contraseña</label>
                   </div>
-
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 text-black"
-                      type="submit">Registrate</button>
+                    <input class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3 text-black"
+                      type="submit" value="Registrate"></input>
                   </div>
-
+                  
                   <div class="d-flex align-items-center justify-content-center pb-4">
                     <p class="mb-0 me-2">¿Ya tienes tu cuenta?</p>
                     <a href="{% url 'index' %}"> <button type="button" class="btn btn-outline-danger">Inicia
