@@ -6,6 +6,7 @@
 {% block title %} ConectaLocal | Iniciar Sesión {% endblock %}
 {% block content %}
 
+
 <section class="h-100 gradient-form" style="background-color: #eee;">
 
   <div class="container py-4 h-100">
@@ -21,24 +22,27 @@
                   <h4 class="mt-1 mb-5 pb-1">ConectaLocal</h4>
                 </div>
 
-                <form action="{% url 'index' %}" method="post">
-                  {% if success_message %}
-                  <p class="text-center"><b>{{ success_message }}</b></p>
+                <form method="POST" action="{% url 'index' %}">
+                  {% csrf_token %}
+                  {% if messages %}
+                  {% for message in messages %}
+                  <p class="text-center text-danger"><b>{{ message }}</b></p>
+                  {% endfor %}
                   {% else %}
-                  <p class="text-center"> <b>Ingresa tus datos para iniciar sesión</b> </p>
+                  <p class="text-center"><b>Ingresa tus datos para iniciar sesión</b></p>
                   {% endif %}
                   <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control" />
+                    <input type="text" id="form2Example11" class="form-control" name="username" required />
                     <label class="form-label" for="form2Example11">Usuario</label>
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" />
+                    <input type="password" id="form2Example22" class="form-control" name="password" required />
                     <label class="form-label" for="form2Example22">Contraseña</label>
                   </div>
 
                   <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Iniciar
+                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="submit">Iniciar
                       sesión</button>
                     <a class="text-muted" href="{% url 'password' %}">¿Olvidaste tu contraseña?</a>
                   </div>
