@@ -1,0 +1,67 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} ConectaLocal | Perfil {% endblock %}
+{% block content %}
+
+<section>
+  <form method="POST" action="{% url 'perfil' %}">
+    {% csrf_token %}
+    <div class="container py-4 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-10">
+          <div class="card rounded-3 text-black">
+            <div class="col-lg">
+              <div class="card-body p-md-5 mx-md-4">
+                <h2 class="mt-1 mb-5 pb-1 text-center">Perfil de usuario</h2>
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <div class="col">
+                  <div class="col">
+                    <!-- Name input -->
+                    <div class="form-outline">
+                      <input type="text" id="form8Example1" class="form-control user" name="username" value="{{ form.username.value }}" />
+                      <label class="form-label mb-4" for="form8Example1">Nombre de usuario</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <!-- Email input -->
+                    <div class="form-outline">
+                      <input type="email" id="form8Example2" class="form-control" name="email"
+                        value="{{ form.email.value }}" />
+                      <label class="form-label mb-4" for="form8Example2">Correo Electrónico</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col align-items-center">
+                  <div class="col">
+                    <!-- Name input -->
+                    <div class="form-outline">
+                      <input type="text" id="form8Example3" class="form-control" name='first_name'
+                        value="{{ form.first_name.value }}" />
+                      <label class="form-label mb-4" for="form8Example3">Nombre</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <!-- Name input -->
+                    <div class="form-outline">
+                      <input type="text" id="form8Example4" class="form-control" name="last_name"
+                        value="{{ form.last_name.value }}" />
+                      <label class="form-label mb-4" for="form8Example4">Apellido</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="m-4 btn btn-success">Guardar cambios</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
+from .forms import editarPerfil
 
 
 def index(request):
@@ -63,3 +65,26 @@ def index(request):
 def logoutCustom(request):
     logout(request)
     return redirect('index')
+
+
+@login_required(login_url='index')
+def perfil(request):
+    if request.method == 'POST':
+        form = editarPerfil(request.POST, instance=request.user)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            
+            # Validar si el username o email ya existen
+            if User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
+                messages.error(request, 'El nombre de usuario ya está en uso.')
+            elif User.objects.exclude(pk=request.user.pk).filter(email=email).exists():
+                messages.error(request, 'El correo electrónico ya está en uso.')
+            else:
+                form.save()
+                messages.success(request, 'Tus datos se han actualizado correctamente.')
+                return redirect('perfil')
+    else:
+        form = editarPerfil(instance=request.user)
+    
+    return render(request, 'perfil.html', {'form': form})
