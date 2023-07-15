@@ -72,6 +72,7 @@ def perfil(request):
     if request.method == 'POST':
         form = editarPerfil(request.POST, instance=request.user)
         if form.is_valid():
+            user = form.save(commit=False)
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             
@@ -81,10 +82,12 @@ def perfil(request):
             elif User.objects.exclude(pk=request.user.pk).filter(email=email).exists():
                 messages.error(request, 'El correo electrónico ya está en uso.')
             else:
-                form.save()
+                user.save()
                 messages.success(request, 'Tus datos se han actualizado correctamente.')
                 return redirect('perfil')
     else:
         form = editarPerfil(instance=request.user)
     
     return render(request, 'perfil.html', {'form': form})
+
+

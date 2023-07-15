@@ -6,6 +6,51 @@
 {% block title %} ConectaLocal | Inicio {% endblock %}
 {% block content %}
 
-    <h1>Bienvenido al inicio ya estas logeado.!!</h1>
+<h3 class="text-center mt-4 mb-4">Bienvenido a ConectaLocal</h3>
+
+<section>
+  <div class="d-flex justify-content-center cards">
+    <div class="card  mb-5 border-dark mr-5" style="width: 22rem; height: 35rem;">
+      <img src="https://concepto.de/wp-content/uploads/2018/08/servicios-publicos-transporte-e1535033244504.jpg"
+        height="225px" class="card-img-top" alt="Icono de solicitud">
+      <div class="card-body mt-4">
+        <h5 class="card-title">Crear solicitud</h5>
+        <p class="card-text mb-5">Genera una solicitud para resolver problemas públicos ahora mismo y mejorar tu
+          comunidad.
+        </p>
+        <a href="{% url 'Solicitudes:crear_solicitud' %}" class="btn btn-primary">Crear solicitud</a>
+      </div>
+    </div>
+    <div class="card mb-5 border-dark mr-5" style="width: 22rem; height: 35rem;">
+      <img src="https://www.elvigia.net/u/fotografias/m/2015/7/9/f608x342-221047_250770_15.jpg" class="card-img-top"
+        height="225px" alt="Icono de solicitud">
+      <div class="card-body mt-4">
+        <h5 class="card-title">Responder solicitud</h5>
+        <p class="card-text mb-5">Responde las solicitudes creadas por los ciudadanos para resolverlas lo antes posible.
+        </p>
+        <a href="#" class="btn btn-primary">Responder solicitud</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @media (max-width: 480px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cards {
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+      }
+    }
+  </style>
+
+</section>
 
 {% endblock %}

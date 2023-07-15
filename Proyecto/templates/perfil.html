@@ -24,14 +24,15 @@
                   <div class="col">
                     <!-- Name input -->
                     <div class="form-outline">
-                      <input type="text" id="form8Example1" class="form-control user" name="username" value="{{ form.username.value }}" />
+                      <input type="text" id="form8Example1" class="form-control user" name='username'
+                        value="{{ form.username.value }}" />
                       <label class="form-label mb-4" for="form8Example1">Nombre de usuario</label>
                     </div>
                   </div>
                   <div class="col">
                     <!-- Email input -->
                     <div class="form-outline">
-                      <input type="email" id="form8Example2" class="form-control" name="email"
+                      <input type="email" id="form8Example2" class="form-control" name='email'
                         value="{{ form.email.value }}" />
                       <label class="form-label mb-4" for="form8Example2">Correo Electrónico</label>
                     </div>
@@ -54,7 +55,9 @@
                       <label class="form-label mb-4" for="form8Example4">Apellido</label>
                     </div>
                   </div>
-                  <button type="submit" class="m-4 btn btn-success">Guardar cambios</button>
+                  <div class="d-flex justify-content-around align-items-center">
+                    <button type="submit" class="btn btn-success">Guardar cambios</button>
+                  </div>
                 </div>
               </div>
             </div>

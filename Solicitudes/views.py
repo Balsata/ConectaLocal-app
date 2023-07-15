@@ -1,6 +1,5 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserChangeForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 
 
-
+def crear_solicitud(request):
+    return render(request, 'Solicitudes/crearSolicitud.html', {})

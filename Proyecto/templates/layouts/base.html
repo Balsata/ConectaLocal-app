@@ -19,38 +19,39 @@
 </head>
 
 <body>
-    <header class="bg-body-tertiary text-black" style="padding: 10px;">
+    <header class="bg-body-tertiary text-black header" style="padding: 10px;">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-1">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-md-2">
                     {% if user.is_authenticated %}
-                    <a href="{% url 'inicio' %}" class="text-white"><img src=" {% static 'img/base/public-service.png' %}" alt="Logo" class="img-fluid"
-                        width="50px">
-                </a>
+                    <a href="{% url 'inicio' %}" class="text-white img-fluid"><img
+                            src=" {% static 'img/base/public-service.png' %}" alt="Logo" width="50px">
+                    </a>
                     {% else %}
-                    <a href="{% url 'index' %}" class="text-white"><img src=" {% static 'img/base/public-service.png' %}" alt="Logo" class="img-fluid"
-                        width="50px">
-                </a>
+                    <a href="{% url 'index' %}" class="text-white img-fluid"><img
+                            src=" {% static 'img/base/public-service.png' %}" alt="Logo" width="50px">
+                    </a>
                     {% endif %}
                 </div>
-                <div class="col-md-10 text-md-right" styled>
+                <div class="col-md-8 text-md-right button_menu">
                     <a href="{% url 'index' %}" class="btn btn-light mr-2 boton_log">Iniciar sesión</a>
                     <a href="{% url 'registro' %}" class="btn btn-primary boton_log">Registrate</a>
                 </div>
                 {% if user.is_authenticated %}
-                <style> .boton_log{display: none;} </style>
-                <div class="dropdown col-md-1">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                <style>
+                    .boton_log {
+                        display: none;
+                    }
+                </style>
+                <div class="dropdown col-md-2">
+                    <button class="btn btn-secondary dropdown-toggle text-capitalize" type="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         {{user.username}}
                     </button>
-                    
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{% url 'perfil' %}">Perfil</a></li>
                         <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                     </ul>
-                    {% else %}
-                    
                     {% endif %}
                 </div>
             </div>
@@ -60,11 +61,14 @@
 
     <main> {% block content %} {% endblock %} </main>
 
-    <footer class="footer bg-body-tertiary text-black py-3" style="height: 70px; display: flex;">
+    <footer class="footer bg-body-tertiary text-black py-3 align-items-center text-center"
+        style="height: 70px; display: flex;">
         <div class="container">
             <span style="color: rgb(95, 95, 95);">ConectaLocal | Todos los derechos reservados</span>
         </div>
     </footer>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
