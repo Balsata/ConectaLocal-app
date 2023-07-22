@@ -75,19 +75,19 @@ def perfil(request):
             user = form.save(commit=False)
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
-            
+
             # Validar si el username o email ya existen
             if User.objects.exclude(pk=request.user.pk).filter(username=username).exists():
                 messages.error(request, 'El nombre de usuario ya está en uso.')
             elif User.objects.exclude(pk=request.user.pk).filter(email=email).exists():
-                messages.error(request, 'El correo electrónico ya está en uso.')
+                messages.error(
+                    request, 'El correo electrónico ya está en uso.')
             else:
                 user.save()
-                messages.success(request, 'Tus datos se han actualizado correctamente.')
+                messages.success(
+                    request, 'Tus datos se han actualizado correctamente.')
                 return redirect('perfil')
     else:
         form = editarPerfil(instance=request.user)
-    
+
     return render(request, 'perfil.html', {'form': form})
-
-

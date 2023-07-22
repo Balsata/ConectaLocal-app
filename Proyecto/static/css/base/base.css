@@ -1,0 +1,29 @@
+.contenedor {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 3.5rem;
+}
+
+.main-menu {
+    align-self: flex-end;
+}
+
+.main-menu li {
+    font-size: 1.07rem;
+    list-style: none;
+    display: inline;
+    margin-left: 3rem;
+    text-decoration: none;
+}
+
+.main-menu a {
+    text-decoration: none;
+}
+
+.main-menu a:hover {
+    text-decoration: underline;
+    color: black;
+    cursor: pointer;
+}
