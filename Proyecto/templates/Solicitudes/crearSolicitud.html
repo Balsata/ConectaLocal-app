@@ -1,12 +1,202 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
-
 {% block styles %}
-<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}"> {% endblock %}
+<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" />
+{% endblock %}
 {% block title %} ConectaLocal | Crear solicitud {% endblock %}
+
 {% block content %}
 
-<h3 class="text-center mt-4 mb-4">Crea tu solicitud</h3>
+<section>
+  <form method="POST" action="{% url 'perfil' %}">
+    {% csrf_token %}
+    <div class="container py-4 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-10">
+          <div class="card rounded-3 text-black">
+            <div class="col-lg">
+              <div class="card-body p-md-5 mx-md-4">
+                <h2 class="mt-1 pb-1 text-center">Crea tu solicitud</h2>
+                <p class="mb-5 text-center">Crea tu solicitud con todos los datos necesarios para la pronta solución a
+                  tu problema.</p>
+                <div class="col">
+                  <div class="col">
+                    <!-- Title input -->
+                    <div class="form-floating mb-5">
+                      <input type="email" class="form-control" id="floatingInput" placeholder="Titulo de la solicitud">
+                      <label for="floatingInput">Nombre de tu solicitud*</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <!-- Select menu -->
+                    <label class="form-label" for="floatingSelect">Tipo de problema</label>
+                    <div class="form-floating  mb-4">
+                      <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                        <option selected>Selecciona una opción</option>
+                        <option value="1">Otro</option>
+                        <option value="2">Aceras o banquetas dañadas</option>
+                        <option value="3">Baches en calles y carreteras</option>
+                        <option value="4">Basura acumulada en áreas públicas</option>
+                        <option value="5">Contenedores de basura dañados o desbordados</option>
+                        <option value="6">Daños en infraestructuras deportivas (canchas, pistas, etc.)</option>
+                        <option value="7">Desperdicio de agua en áreas públicas</option>
+                        <option value="8">Falta de acceso a servicios médicos o de emergencia</option>
+                        <option value="9">Falta de iluminación en calles o espacios públicos</option>
+                        <option value="10">Falta de mantenimiento en edificios públicos</option>
+                        <option value="11">Falta de mantenimiento en parques y áreas verdes</option>
+                        <option value="12">Falta de señalización o semáforos en intersecciones peligrosas</option>
+                        <option value="13">Graffiti o pintadas vandálicas</option>
+                        <option value="14">Infestación de plagas en espacios públicos</option>
+                        <option value="15">Inundaciones o problemas de drenaje en áreas urbanas</option>
+                        <option value="16">Mobiliario urbano deteriorado (bancos, señalización, etc.)</option>
+                        <option value="17">Problemas con el suministro de agua potable</option>
+                        <option value="18">Problemas con el transporte público (retrasos, falta de unidades, etc.).
+                        </option>
+                        <option value="19">Problemas de ruido o contaminación ambiental</option>
+                        <option value="20">Problemas de tráfico o congestión vehicular</option>
+                        <option value="21">Vías ciclistas en mal estado</option>
+                      </select>
+                      <label for="floatingSelect">Elige la problemática*</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col align-items-center">
+                  <div class="col">
+                    <!-- Otro input -->
+                    <div class="form-floating mb-5">
+                      <input type="text" class="form-control" id="otroProblema" placeholder="Otro problema">
+                      <label for="otroProblema">Si elegiste otro, escríbelo:</label>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <!-- Direccion input -->
+                    <div class="form-outline">
+                      <label class="form-label" for="estado">Dirección del problema</label>
+                      <div class="row g-2">
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <select id="estado" onchange="cargarMunicipios()" class="form-select">
+                              <option value="">-- Selecciona --</option>
+                              <option value="Aguascalientes">Aguascalientes</option>
+                              <option value="Baja California">Baja California</option>
+                              <option value="Baja California Sur">Baja California Sur</option>
+                              <option value="Campeche">Campeche</option>
+                              <option value="Chiapas">Chiapas</option>
+                              <option value="Chihuahua">Chihuahua</option>
+                              <option value="Ciudad de Mexico">Ciudad de México</option>
+                              <option value="Coahuila">Coahuila</option>
+                              <option value="Colima">Colima</option>
+                              <option value="Durango">Durango</option>
+                              <option value="Guerrero">Guerrero</option>
+                              <option value="Guanajuato">Guanajuato</option>
+                              <option value="Hidalgo">Hidalgo</option>
+                              <option value="Jalisco">Jalisco</option>
+                              <option value="Michoacan">Michoacán</option>
+                              <option value="Estado de Mexico">Estado de México</option>
+                              <option value="Morelos">Morelos</option>
+                              <option value="Nayarit">Nayarit</option>
+                              <option value="Nuevo Leon">Nuevo León</option>
+                              <option value="Oaxaca">Oaxaca</option>
+                              <option value="Puebla">Puebla</option>
+                              <option value="Quintana Roo">Quintana Roo</option>
+                              <option value="Queretaro">Querétaro</option>
+                              <option value="Sinaloa">Sinaloa</option>
+                              <option value="San Luis Potosi">San Luis Potosí</option>
+                              <option value="Sonora">Sonora</option>
+                              <option value="Tabasco">Tabasco</option>
+                              <option value="Tlaxcala">Tlaxcala</option>
+                              <option value="Tamaulipas">Tamaulipas</option>
+                              <option value="Veracruz">Veracruz</option>
+                              <option value="Yucatan">Yucatán</option>
+                              <option value="Zacatecas">Zacatecas</option>
+                            </select>
+                            <label for="floatingSelectGrid">Estado*</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <select id="municipio" class="form-select">
+                              <option value="">-- Selecciona --</option>
+                            </select>
+                            <label for="floatingSelectGrid">Municipio*</label>
+                          </div>
+                        </div>
+                      </div>
 
+                      <div class="form-floating mb-4">
+                        <input type="text" class="form-control" id="direccion" placeholder="direccion">
+                        <label for="direccion">Dirección:*</label>
+                      </div>
+
+                      <div class="row g-3 mb-4">
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="num-ext" placeholder="Numero exterior">
+                            <label for="num-ext">Numero exterior</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="num-int" placeholder="Numero interior">
+                            <label for="num-int">Numero interior</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="cp" placeholder="Codgio postal">
+                            <label for="cp">Codigo postal*</label>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Contacto input -->
+                      <label class="form-label" for="telefono">Información de contacto</label>
+                      <div class="row g-2 mb-4">
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <input type="number" class="form-control" id="telefono" placeholder="telefono"
+                              maxlength="10">
+                            <label for="telefono">Numero de telefono (10 digitos)*</label>
+                          </div>
+                        </div>
+                        <div class="col-md">
+                          <div class="form-floating mb-4">
+                            <input type="email" class="form-control" id="email-contacto" placeholder="email-contacto">
+                            <label for="email-contacto">Correo electronico*</label>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Descripcion input -->
+                      <div class="mb-5">
+                        <label class="form-label" for="descripcion">Descripción del problema</label>
+                        <div class="form-floating">
+                          <textarea class="form-control" placeholder="Descripcion" id="descripcion"
+                            style="height: 300px"></textarea>
+                          <label for="floatingTextarea2">Describe y explica detalladamente la problemática*</label>
+                        </div>
+                      </div>
+                      <!-- Evidencia input -->
+                      <label class="form-label" for="evidencia">Evidencia</label>
+                      <div class="input-group mb-5">
+                        <input type="file" class="form-control" id="evidencia">
+                      </div>
+                      <!-- Boton -->
+                      <div class="d-flex justify-content-around align-items-center">
+                        <button type="submit" class="btn btn-success">Crear solicitud</button>
+                      </div>
+                      <p class="fs-6">* Información requerida</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  </form>
+</section>
+
+{% endblock %}
+{% block scripts %}
+
+<script src={% static 'js/crear-solicitud.js' %}></script>
 
 {% endblock %}
