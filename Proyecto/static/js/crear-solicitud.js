@@ -1,14 +1,22 @@
+function problema() {
+  let problema = document.querySelector("#problem");
+  let otro = document.querySelector("#otro");
+
+  problema.addEventListener("change", function () {
+    if (problema.value === "1") {
+      otro.disabled = false
+    }else{
+      otro.disabled = true
+    }
+  });
+}
+
 function cargarMunicipios() {
-  var estadoSelect = document.getElementById("estado");
-  var municipioSelect = document.getElementById("municipio");
 
-  // Limpiar las opciones actuales
-  municipioSelect.innerHTML = "<option value=''>-- Selecciona --</option>";
 
-  // Obtener el estado seleccionado
-  var estadoSeleccionado = estadoSelect.value;
+  let estadoSelect = document.querySelector("#estado");
+  let municipioSelect = document.querySelector("#municipio");
 
-  // Lista de municipios simulada en formato JSON
   var municipios = {
     "Aguascalientes": ["Aguascalientes", "Asientos", "Calvillo", "Cosio", "El Llano", "Jesus Maria", "Pabellon de Arteaga", "Rincon de Romos", "San Francisco de los Romo", "San Jose de Gracia", "Tepezala"],
     "Baja California": ["Ensenada", "Mexicali", "Playas de Rosarito", "Tecate", "Tijuana"],
@@ -45,13 +53,29 @@ function cargarMunicipios() {
   };
 
   // Obtener los municipios del estado seleccionado
-  var municipiosEstado = municipios[estadoSeleccionado];
+  estadoSelect.addEventListener("change", function () {
+    let estado = this.value;
+    let municipiosEstado = municipios[estado];
+    municipioSelect.innerHTML = "";
+    let primeraSeleccion = "";
 
-  // Agregar opciones de municipios al select
-  municipiosEstado.forEach(function (municipio) {
-    var option = document.createElement("option");
-    option.value = municipio;
-    option.textContent = municipio;
-    municipioSelect.appendChild(option);
-  });
+    // Guardar la primera selección si aún no se ha guardado
+    if (primeraSeleccion === "") {
+      primeraSeleccion = estado;
+    }
+
+    // Comparar con la primera selección
+    if (estado !== primeraSeleccion) {
+      municipioSelect = "Selecciona un municipio";
+    }
+
+    // Agregar opciones de municipios al select
+    municipiosEstado.forEach(function (municipio) {
+      let option = document.createElement("option");
+      option.value = municipio;
+      option.textContent = municipio;
+      municipioSelect.appendChild(option);
+
+    });
+  })
 }

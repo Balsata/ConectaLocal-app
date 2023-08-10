@@ -111,8 +111,7 @@ USE_TZ = True
 STATIC_URL = 'Proyecto/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "Proyecto/static",
-    "/var/www/static/",
+    BASE_DIR / "Proyecto/static"
 ]
 
 # Default primary key field type
