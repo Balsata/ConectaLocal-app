@@ -1,0 +1,151 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" /> {%endblock %}
+{% block title %} ConectaLocal | Lista de solicitudes {% endblock %}
+
+
+{% block content %}
+<section>
+    <div class="container py-4 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-xl-10">
+                <div class="card rounded-3 text-black">
+                    <div class="col-lg">
+                        <div class="card-body p-md-5 mx-md-4">
+                            <h2 class="text-center mt-5 mb-5 justify-content-center">Detalles de la Solicitud </h2>
+                            <div>
+                                {% if solicitud.resuelto %}
+                                <div>
+                                    <label for="resuelto" class="h3 text-info">Respuesta de solicitud</label>
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="nombre_respuesta" class="h3 text-info-emphasis">Nombre de la persona que responde</label>
+                                    <input type="text" class="form-control-plaintext fs-4" id="nombre_respuesta"
+                                        value="{{ solicitud.nombre_respuesta }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="puesto_respuesta" class="h3 text-info-emphasis">Puesto de la persona que responde</label>
+                                    <input type="text" class="form-control-plaintext fs-4" id="puesto_respuesta"
+                                        value="{{ solicitud.puesto_respuesta }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="detalle_respuesta" class="h3 text-info-emphasis">Detalles de la respuesta</label>
+                                    <textarea name="" id="detalle_respuesta" rows="10" class="form-control-plaintext fs-4"
+                                        style="resize: none;">"{{ solicitud.detalle_respuesta }}"</textarea>
+                                    <br>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <label for="resuelto" class="h3 text-info-emphasis">Solicitud Resuelta</label>
+                                    <input type="text" class="form-control-plaintext fs-4" id="resuelto"
+                                        value="{% if solicitud.resuelto %}Sí{% else %}No{% endif %}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="fecha" class="h3 text-info-emphasis">Fecha</label>
+                                    <input type="text" class="form-control-plaintext fs-4" id="fecha"
+                                        value="{{ solicitud.fecha_creacion }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="nombre" class="h3 text-info-emphasis">Nombre</label>
+                                    <input type="text" id="nombre" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.nombre }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="tipo_problema" class="h3 text-info-emphasis">Tipo de problema</label>
+                                    <input type="text" id="tipo_problema" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.tipo_problema }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="tipo_otro" class="h3 text-info-emphasis">Tipo de problema</label>
+                                    <input type="text" id="tipo_otro" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.tipo_otro }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="estado" class="h3 text-info-emphasis">Estado</label>
+                                    <input type="text" id="estado" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.estado }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="municipio" class="h3 text-info-emphasis">Municipio</label>
+                                    <input type="text" id="municipio" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.municipio }}">
+                                    <br>
+                                </div>
+
+                                <div>
+                                    <label for="direccion" class="h3 text-info-emphasis">Dirección</label>
+                                    <input type="text" id="direccion" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.direccion }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="num_ext" class="h3 text-info-emphasis">Número exterior</label>
+                                    <input type="text" id="num_ext" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.num_ext }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="num_int" class="h3 text-info-emphasis">Número Interior</label>
+                                    <input type="text" id="num_int" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.num_int }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="codigo_postal" class="h3 text-info-emphasis">Código Postal</label>
+                                    <input type="text" id="codigo_postal" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.codigo_postal }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="telefono" class="h3 text-info-emphasis">Teléfono de contacto</label>
+                                    <input type="text" id="telefono" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.telefono }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="email" class="h3 text-info-emphasis">Email de contacto</label>
+                                    <input type="text" id="email" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.email }}">
+                                    <br>
+                                </div>
+                                <div>
+                                    <label for="descripcion" class="h3 text-info-emphasis">Descripción del
+                                        problema</label>
+                                    <textarea name="" id="descripcion" rows="10" class="form-control-plaintext fs-4"
+                                        style="resize: none;">"{{ solicitud.descripcion }}"</textarea>
+                                    <br>
+
+                                </div>
+                                <div>
+                                    <label for="archivos" class="h3 text-info-emphasis">Evidencia del problema</label>
+                                    <input type="text" id="archivos" class="form-control-plaintext fs-4"
+                                        value="{{ solicitud.archivos }}">
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'Solicitudes:lista_solicitudes' %}" class="btn btn-success">Regresar
+                                </a>
+                                <a href="{% url 'Solicitudes:crear_solicitud' %}" class="btn btn-primary">Crear
+                                    solicitud </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

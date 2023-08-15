@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.decorators import login_required
@@ -37,9 +37,15 @@ def registro(request):
         else:
             user = User.objects.create_user(
                 username=username, password=password, email=email)
+
+            # Asignar el usuario al grupo "ciudadano"
+            grupo_ciudadano = Group.objects.get(name='ciudadano')
+            user.groups.add(grupo_ciudadano)
+
             success_message = 'El usuario se ha registrado exitosamente.'
             messages.success(request, success_message)
             return redirect('index')
+
     return render(request, 'registro.html', {'error_message': error_message, 'username': username})
 
 

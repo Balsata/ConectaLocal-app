@@ -1,12 +1,87 @@
-{% extends 'layouts/base.html' %}
-{% load static %}
+{% extends 'layouts/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" />
+{%endblock %} {% block title %} ConectaLocal | Lista de solicitudes {% endblock %} {% block content %}
 
-{% block styles %}
-<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}"> {% endblock %}
-{% block title %} ConectaLocal | Lista de solicitudes {% endblock %}
-{% block content %}
 
-<h3 class="text-center mt-4 mb-4">Lista de solicitudes</h3>
+<section>
+    <h2 class="text-center mt-5 mb-5 justify-content-center">
+        Tabla de Solicitudes
+    </h2>
+    <div class="container text-center">
+        <div class="row justify-content-center">
+
+            <form method="get" class="d-flex">
+                <div class="form-group mx-2">
+                    {{ form.fecha.label_tag }}
+                    {{ form.fecha }}
+                </div>
+                <div class="form-group mx-2">
+                    {{ form.resuelto.label_tag }}
+                    {{ form.resuelto }}
+                </div>
+                <div class="form-group mx-2">
+                    {{ form.nombre.label_tag }}
+                    {{ form.nombre }}
+                </div>
+                <div class="form-group mx-2">
+                    {{ form.estado.label_tag }}
+                    {{ form.estado }}
+                </div>
+                <div class="form-group mx-2">
+                    {{ form.tipo_problema.label_tag }}
+                    {{ form.tipo_problema }}
+                </div>
+                <button type="submit" class="btn btn-success mx-2">Filtrar</button>
+                <a href="{% url 'Solicitudes:lista_solicitudes' %}" class="btn btn-danger mx-3">Borrar filtros</a>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <table class="table text-center mx-auto">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Municipio</th>
+                <th>Tipo de problema</th>
+                <th>Dirección</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for solicitud in solicitudes %}
+            <tr>
+                <td class="align-middle">
+                    {{ solicitud.fecha_creacion|date:"d/m/Y" }}
+                </td>
+                <td class="align-middle">{{ solicitud.nombre }}</td>
+                <td class="align-middle">{{ solicitud.estado }}</td>
+                <td class="align-middle">{{ solicitud.municipio }}</td>
+                <td class="align-middle">{{ solicitud.tipo_problema }}</td>
+                <td class="align-middle">{{ solicitud.direccion }}</td>
+                <td class="align-middle">
+                    <a href="{% url 'Solicitudes:detalles_solicitud' solicitud.id %}" class="btn btn-primary">Detalles</a>
+                </td>
+            </tr>
+            {% endfor %}
+            <tr>
+                {% if messages %}
+                <div class="alert alert-info text-center mt-4">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</section>
 
 
 {% endblock %}

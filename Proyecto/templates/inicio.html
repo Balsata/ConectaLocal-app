@@ -1,5 +1,6 @@
 {% extends 'layouts/base.html' %}
 {% load static %}
+{% load has_group %}
 
 {% block styles %}
 <link rel="stylesheet" href="{% static 'css/registro/styles.css' %}">
@@ -23,6 +24,7 @@
         <a href="{% url 'Solicitudes:crear_solicitud' %}" class="btn btn-primary">Crear solicitud</a>
       </div>
     </div>
+    {% if not request.user|has_group:"ciudadano" %}
     <div class="card mb-5 mr-4" style="width: 22rem; height: 35rem;">
       <img src="https://www.elvigia.net/u/fotografias/m/2015/7/9/f608x342-221047_250770_15.jpg" class="card-img-top"
         height="225px" alt="Icono de solicitud">
@@ -33,6 +35,7 @@
         <a href="{% url 'Solicitudes:responder_solicitud' %}" class="btn btn-primary">Responder solicitud</a>
       </div>
     </div>
+    {% endif %}
     <div class="card mb-5 mr-4" style="width: 22rem; height: 35rem;">
       <img
         src="https://imagenes.elpais.com/resizer/76dtPtd_kItZouRgsuupsB3nHJQ=/414x0/cloudfront-eu-central-1.images.arcpublishing.com/prisa/6WKZY76RJNJVNC2NTUDT7PQZHI.jpg"

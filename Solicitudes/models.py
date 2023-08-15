@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Solicitud(models.Model):
-    fecha_creacion = models.DateTimeField(auto_now=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
     resuelto = models.BooleanField(default=False)
     nombre = models.CharField(max_length=100)
     tipo_problema = models.CharField(max_length=100)
@@ -17,6 +17,12 @@ class Solicitud(models.Model):
     email = models.EmailField(max_length=254)
     descripcion = models.CharField(max_length=500)
     archivos = models.FileField(
+        upload_to='archivos/', max_length=300, null=True, blank=True)
+
+    nombre_respuesta = models.CharField(max_length=50, null=True, blank=True)
+    puesto_respuesta = models.CharField(max_length=80, null=True, blank=True)
+    detalle_respuesta = models.CharField(max_length=500, null=True, blank=True)
+    evidencia_respuesta = models.FileField(
         upload_to='archivos/', max_length=300, null=True, blank=True)
 
     def __str__(self):
