@@ -1,10 +1,19 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from Solicitudes.forms import SolicitudForm, SolicitudFilterForm, RespuestaForm
 from Solicitudes.models import Solicitud
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.utils.dateparse import parse_date
+from rest_framework import generics
+from .serializers import SolicitudSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 @login_required(login_url='index')
@@ -156,3 +165,75 @@ def respuesta_de_solicitud(request, solicitud_id):
         respuesta_form = RespuestaForm(instance=solicitud)
 
     return render(request, 'Solicitudes/respuesta_de_solicitud.html', {'respuesta_form': respuesta_form, 'solicitud': solicitud})
+
+
+class SolicitudListaView(APIView):
+    def get(self, request):
+        solicitudes = Solicitud.objects.all()
+        serializer = SolicitudSerializer(solicitudes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = SolicitudSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SolicitudDetalleView(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Solicitud.objects.get(pk=pk)
+        except Solicitud.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        solicitud = self.get_object(pk)
+        serializer = SolicitudSerializer(solicitud)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        solicitud = self.get_object(pk)
+        serializer = SolicitudSerializer(solicitud, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk):
+        solicitud = self.get_object(pk)
+        serializer = SolicitudSerializer(
+            solicitud, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        solicitud = self.get_object(pk)
+        solicitud.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TokenObtainView(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        if username is None or password is None:
+            return Response({'error': 'Se requiere nombre de usuario y contraseña.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            user = User.objects.get(username=username)
+            if user.check_password(password):
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'access_token': str(refresh.access_token),
+                    'refresh_token': str(refresh),
+                })
+        except User.DoesNotExist:
+            pass
+
+        return Response({'error': 'Credenciales inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
