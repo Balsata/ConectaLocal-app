@@ -12,5 +12,6 @@ urlpatterns = [
     path('inicio/', views.inicio, name="inicio"),
     path('perfil/', views.perfil, name='perfil'),
     path('Solicitudes/', include('Solicitudes.urls')),
+    path('open311/', include('open311.urls')),
     path('admin/', admin.site.urls)
 ]

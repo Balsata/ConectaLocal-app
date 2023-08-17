@@ -6,7 +6,6 @@ from Solicitudes.models import Solicitud
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.utils.dateparse import parse_date
-from rest_framework import generics
 from .serializers import SolicitudSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,6 +13,10 @@ from rest_framework import status
 from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.http import HttpResponse
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font
+from openpyxl.utils import get_column_letter
 
 
 @login_required(login_url='index')
@@ -182,6 +185,7 @@ class SolicitudListaView(APIView):
 
 
 class SolicitudDetalleView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
         try:
@@ -237,3 +241,59 @@ class TokenObtainView(APIView):
             pass
 
         return Response({'error': 'Credenciales inválidas.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+def generar_reporte_excel(request):
+    solicitudes = Solicitud.objects.all()
+
+    wb = Workbook()
+    ws = wb.active
+
+    header_style = Alignment(
+        horizontal='center', vertical='center', wrap_text=True)
+    header_font = Font(bold=True)
+
+    headers = ["Fecha de Creación", "Resuelto", "Nombre", "Tipo de Problema", "Tipo Otro",
+               "Estado", "Municipio", "Dirección", "Número Exterior", "Número Interior",
+               "Código Postal", "Teléfono", "Correo Electrónico", "Descripción",
+               "Nombre de Respuesta", "Puesto de Respuesta", "Detalle de Respuesta"]
+
+    for col_num, header_text in enumerate(headers, 1):
+        col_letter = get_column_letter(col_num)
+        header_cell = ws[f"{col_letter}1"]
+        header_cell.value = header_text
+        header_cell.alignment = header_style
+        header_cell.font = header_font
+
+    cell_style = Alignment(horizontal='center',
+                           vertical='center', wrap_text=True)
+
+    for solicitud in solicitudes:
+        fecha_creacion_no_tz = solicitud.fecha_creacion.replace(tzinfo=None)
+
+        row = [
+            fecha_creacion_no_tz, solicitud.resuelto, solicitud.nombre,
+            solicitud.tipo_problema, solicitud.tipo_otro, solicitud.estado,
+            solicitud.municipio, solicitud.direccion, solicitud.num_ext,
+            solicitud.num_int, solicitud.codigo_postal, solicitud.telefono,
+            solicitud.email, solicitud.descripcion, solicitud.nombre_respuesta,
+            solicitud.puesto_respuesta, solicitud.detalle_respuesta
+        ]
+
+        ws.append(row)
+        for col_num in range(1, len(row) + 1):
+            col_letter = get_column_letter(col_num)
+            cell = ws[f"{col_letter}{ws.max_row}"]
+            cell.alignment = cell_style
+
+    for col_num, _ in enumerate(headers, 1):
+        col_letter = get_column_letter(col_num)
+        ws.column_dimensions[col_letter].auto_size = True
+
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=reporte_solicitudes.xlsx'
+
+    wb.save(response)
+
+    return response

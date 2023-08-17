@@ -1,0 +1,110 @@
+{% extends 'layouts/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" />
+{%endblock %} {% block title %} ConectaLocal | Lista de solicitudes {% endblock %} {% block content %}
+
+
+<section>
+    <section>
+        <h2 class="text-center mt-5 mb-5 justify-content-center">
+            Tabla de Solicitudes
+        </h2>
+        <div class="text-center">
+            <div class="row justify-content-center">
+                <form method="get" class="d-flex flex-wrap align-items-center justify-content-center">
+                    <div class="form-group mx-2">
+                        {{ form.fecha.label_tag }}
+                        {{ form.fecha }}
+                    </div>
+                    <div class="form-group mx-2">
+                        {{ form.imagen.label_tag }}
+                        {{ form.imagen }}
+                    </div>
+                    <div class="form-group mx-2">
+                        {{ form.descripcion.label_tag }}
+                        {{ form.descripcion }}
+                    </div>
+                    <div class="form-group mx-2">
+                        {{ form.direccion.label_tag }}
+                        {{ form.direccion }}
+                    </div>
+                    <div class="form-group mx-2">
+                        {{ form.registros_por_pagina.label_tag }}
+                        {{ form.registros_por_pagina }}
+                    </div>
+                    <button type="submit" class="btn btn-success mx-2">Filtrar</button>
+                    <a href="{% url 'open311:lista_open311' %}" class="btn btn-danger mx-2">Borrar filtros</a>
+                    <a href="{% url 'open311:generar_reporte' %}" class="btn btn-warning mx-2">Generar reporte (Excel)</a>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <table class="table text-center mx-auto">
+            <thead>
+                <tr>
+                    <th>Request_id</th>
+                    <th>Descripción</th>
+                    <th>Dirección</th>
+                    <th>Fecha de creación</th>
+                    <th>Media</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitud in solicitudes %}
+                <tr id="{{solicitud.id}}_fila">
+                    <td id="{{solicitud.id}}_nombre">{{ solicitud.request_id }}</td>
+                    <td id="{{solicitud.id}}_descripcion">{{ solicitud.descripcion }}</td>
+                    <td id="{{solicitud.id}}_precio">{{ solicitud.address }}</td>
+                    <td id="{{solicitud.id}}_precio">{{ solicitud.requested_datetime }}</td>
+                    {% if solicitud.media_url %}
+                    <td id="{{solicitud.id}}_archivo"><a target="_blank" href="{{ solicitud.media_url }}">Imagen</a>
+                    </td>
+                    {% else %}
+                    <td id="{{solicitud.id}}_archivo">Sin imagen</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if solicitudes.has_previous %}
+            <a href="?page=1{% if filters %}&{{ filters.urlencode }}{% endif %}" class="btn btn-secondary">&laquo;
+                Primera</a>
+            <a href="?page={{ solicitudes.previous_page_number }}{% if filters %}&{{ filters.urlencode }}{% endif %}"
+                class="btn btn-primary">Anterior</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ solicitudes.number }} de {{ solicitudes.paginator.num_pages }}.
+            </span>
+
+            {% if solicitudes.has_next %}
+            <a href="?page={{ solicitudes.next_page_number }}{% if filters %}&{{ filters.urlencode }}{% endif %}"
+                class="btn btn-primary">Siguiente</a>
+            <a href="?page={{ solicitudes.paginator.num_pages }}{% if filters %}&{{ filters.urlencode }}{% endif %}"
+                class="btn btn-secondary">Ultima &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    {% if messages %}
+    <div class="alert alert-info text-center mt-4">
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    </tr>
+    </tbody>
+    </table>
+</section>
+
+
+{% endblock %}

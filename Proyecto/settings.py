@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'Solicitudes',
     'rest_framework',
     'rest_framework_simplejwt',
+    'open311'
 ]
 
 REST_FRAMEWORK = {
