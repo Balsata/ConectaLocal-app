@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %} {% load static %} {% block styles %}
+{% extends 'layouts/base.html' %} {% load static %} {% load has_group %} {% block styles %}
 <link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" />
 {%endblock %} {% block title %} ConectaLocal | Lista de solicitudes {% endblock %} {% block content %}
 
@@ -33,7 +33,9 @@
                 <div class="btn-group">
                     <button type="submit" class="btn btn-success mr-2">Filtrar</button>
                     <a href="{% url 'Solicitudes:lista_solicitudes' %}" class="btn btn-danger mr-2">Borrar filtros</a>
+                    {% if not request.user|has_group:"ciudadano" %}
                     <a href="{% url 'Solicitudes:crear_reporte' %}" class="btn btn-warning">Generar reporte (Excel)</a>
+                    {% endif %}
                 </div>
             </form>
         </div>

@@ -1,4 +1,4 @@
-{% extends 'layouts/base.html' %} {% load static %} {% block styles %}
+{% extends 'layouts/base.html' %} {% load static %} {% load has_group %} {% block styles %}
 <link rel="stylesheet" href="{% static 'css/registro/styles.css' %}" />
 {%endblock %} {% block title %} ConectaLocal | Lista de solicitudes {% endblock %} {% block content %}
 
@@ -33,7 +33,9 @@
                     </div>
                     <button type="submit" class="btn btn-success mx-2">Filtrar</button>
                     <a href="{% url 'open311:lista_open311' %}" class="btn btn-danger mx-2">Borrar filtros</a>
+                    {% if not request.user|has_group:"ciudadano" %}
                     <a href="{% url 'open311:generar_reporte' %}" class="btn btn-warning mx-2">Generar reporte (Excel)</a>
+                    {% endif %}
                 </form>
             </div>
         </div>
