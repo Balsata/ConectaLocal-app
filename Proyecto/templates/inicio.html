@@ -32,7 +32,7 @@
         <h5 class="card-title">Responder solicitud</h5>
         <p class="card-text mb-5">Responde las solicitudes creadas por los ciudadanos para resolverlas lo antes posible.
         </p>
-        <a href="{% url 'Solicitudes:responder_solicitud' %}" class="btn btn-primary">Responder solicitud</a>
+        <a href="{% url 'Solicitudes:responder_solicitud' %}" class="btn btn-primary" id="resp_sol">Responder solicitud</a>
       </div>
     </div>
     {% endif %}
@@ -45,7 +45,7 @@
         <p class="card-text mb-5">Revisa la lista de todas las solicitudes creadas por los ciudadanos y el status de
           respuesta de cada una.
         </p>
-        <a href="{% url 'Solicitudes:lista_solicitudes' %}" class="btn btn-primary">Lista de solicitudes</a>
+        <a href="{% url 'Solicitudes:lista_solicitudes' %}" class="btn btn-primary" id="lista_sol">Lista de solicitudes</a>
       </div>
     </div>
 

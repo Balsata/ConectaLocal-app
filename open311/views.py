@@ -45,7 +45,7 @@ def solicitud(request):
 
 
 @login_required(login_url='index')
-def lista_solicitud(request):
+def lista_solicitudes(request):
     form = SolicitudFilterForm(request.GET)
     solicitudes = ListaOpen311.objects.all()
 
@@ -87,7 +87,7 @@ def lista_solicitud(request):
     return render(request, 'open311/lista_solicitudes.html', {'solicitudes': page_obj, 'form': form, 'filters': filters})
 
 
-def generar_reporte_excel(request):
+def generar_reporte(request):
 
     solicitudes = ListaOpen311.objects.all()
 
